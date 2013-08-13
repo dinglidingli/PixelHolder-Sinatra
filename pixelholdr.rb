@@ -32,7 +32,7 @@ class PixelHoldr < Sinatra::Base
 			when color.length == 2
 				generated_color = color * 3
 			when color.length == 3
-				generated_color = color * 2
+				generated_color = (color[0] * 2) + (color[1] * 2) + (color[2] * 2)
 			when color.length < 6 && color.length > 3
 				generated_color = color + ("0" * (6 - color.length))
 			when color.length > 6
