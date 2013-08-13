@@ -7,7 +7,7 @@ If you wish to use image placeholders without running this locally, please visit
 
 Requirements
 ------------
-MongoDB is used by PixelHoldr to keep track of image file paths. PixelHoldr will connect to the collection called `pixelholdr'.
+MongoDB is used by PixelHoldr to keep track of image file paths. PixelHoldr will connect to the collection called `pixelholdr`.
 
 Installation
 ------------
