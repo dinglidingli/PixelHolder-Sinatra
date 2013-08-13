@@ -3,6 +3,8 @@ PixelHoldr
 
 This is the source code for the PixelHoldr image placeholder generator. I have provided the code behind the site so that you may self-host the generator / help improve it / do what you want with it.
 
+If you wish to use image placeholders without running this locally, please visit [PixelHoldr.com](http://pixelholdr.com).
+
 Installation
 ------------
 1. Clone the repository
@@ -22,4 +24,4 @@ e.g.:
 <img src="http://localhost:4567/cat/500">
 ```
 
-For complete information about how to use PixelHoldr, please visit [PixelHoldr.com](http://pixelholdr.com).
+For complete information about how to use the PixelHoldr service, please visit [PixelHoldr.com](http://pixelholdr.com).
