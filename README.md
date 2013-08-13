@@ -5,6 +5,10 @@ This is the source code for the PixelHoldr image placeholder generator. I have p
 
 If you wish to use image placeholders without running this locally, please visit [PixelHoldr.com](http://pixelholdr.com).
 
+Requirements
+------------
+MongoDB is used by PixelHoldr to keep track of image file paths. PixelHoldr will use the default MongoDB connection string when connecting.
+
 Installation
 ------------
 1. Clone the repository
@@ -15,7 +19,11 @@ Installation
 
 Usage
 -----
-PixelHoldr works with the following URL format `http://localhost:4567/{image type}/{image dimensions}/{optional image settings}` 
+PixelHoldr works with the following URL format 
+
+```
+http://localhost:4567/{image type}/{image dimensions}/{optional image settings}
+```
 
 To add an image to your HTML, simply insert the URL in the `src` attribute of the `img` tag. 
 

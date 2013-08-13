@@ -197,28 +197,33 @@ class PixelHoldr < Sinatra::Base
 				img.composite!(watermark_canvas, Magick::CenterGravity, Magick::OverCompositeOp)
 			end
 
-			attribution_text = (photo.nil?) ? "" : " #{photo.owner_name} on Flickr "
 
-			attribution = Magick::Draw.new
-			attribution.fill = (options[:text]) ? "##{ColorHelpers.get_hex(options[:text])}" : "white"
-			# TODO: Choose font
-			attribution.font = 'Helvetica Black'
-			attribution.pointsize = 300
-			attribution.stroke = "rgba(0,0,0,0.3)"
-			attribution.stroke_width = 15
-			attribution.font_weight = Magick::BoldWeight
-			attribution.gravity = Magick::SouthGravity
+			unless photo.nil? 
+				
+				attribution_text = " #{photo.owner_name} on Flickr "
 
-			attr_font_size = attribution.get_type_metrics(attribution_text)
+				attribution = Magick::Draw.new
+				attribution.fill = (options[:text]) ? "##{ColorHelpers.get_hex(options[:text])}" : "white"
+				# TODO: Choose font
+				attribution.font = 'Helvetica Black'
+				attribution.pointsize = 300
+				attribution.stroke = "rgba(0,0,0,0.3)"
+				attribution.stroke_width = 15
+				attribution.font_weight = Magick::BoldWeight
+				attribution.gravity = Magick::SouthGravity
 
-			attribution_canvas = Magick::Image.new(attr_font_size.width, attr_font_size.height) do
-				self.background_color = 'transparent'
+				attr_font_size = attribution.get_type_metrics(attribution_text)
+
+				attribution_canvas = Magick::Image.new(attr_font_size.width, attr_font_size.height) do
+					self.background_color = 'transparent'
+				end
+
+				attribution.annotate(attribution_canvas, 0, 0, 0, 5, attribution_text)
+				attribution_canvas.resize_to_fit!(x * 0.8, 20)
+
+				img.composite!(attribution_canvas, Magick::SouthGravity, Magick::OverCompositeOp)
+
 			end
-
-			attribution.annotate(attribution_canvas, 0, 0, 0, 5, attribution_text)
-			attribution_canvas.resize_to_fit!(x * 0.8, 20)
-
-			img.composite!(attribution_canvas, Magick::SouthGravity, Magick::OverCompositeOp)
 
 			# Save the image
 			file_path = key.gsub(":", "-").gsub(',', "-") + "." + file_extension
