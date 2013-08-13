@@ -175,7 +175,7 @@ class PixelHoldr < Sinatra::Base
 				# Add the text watermarks
 				watermark_text = "#{x} #{215.chr} #{y}"
 				watermark = Magick::Draw.new
-				watermark.fill = (options[:text]) ? "##{ColorHelpers.get_hex(options[:text])}" : "white"
+				watermark.fill = (options[:text]) ? "#{ColorHelpers.get_hex(options[:text])}" : "white"
 				# TODO: Choose font
 				watermark.font = 'Helvetica Black'
 				watermark.stroke = "rgba(0,0,0,0.15)"
@@ -199,11 +199,11 @@ class PixelHoldr < Sinatra::Base
 
 
 			unless photo.nil? 
-				
+
 				attribution_text = " #{photo.owner_name} on Flickr "
 
 				attribution = Magick::Draw.new
-				attribution.fill = (options[:text]) ? "##{ColorHelpers.get_hex(options[:text])}" : "white"
+				attribution.fill = (options[:text]) ? "#{ColorHelpers.get_hex(options[:text])}" : "white"
 				# TODO: Choose font
 				attribution.font = 'Helvetica Black'
 				attribution.pointsize = 300
