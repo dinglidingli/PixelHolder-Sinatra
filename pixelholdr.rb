@@ -23,9 +23,6 @@ class PixelHoldr < Sinatra::Base
 	class ColorHelpers
 
 		def self.get_hex(color)
-
-			color.to_s()
-
 			case 
 			when color.length == 1
 				generated_color = color * 6
