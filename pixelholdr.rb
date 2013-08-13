@@ -223,7 +223,7 @@ class PixelHoldr < Sinatra::Base
 			end
 
 			# Save the image
-			file_path = key.gsub(":", "-").gsub(',', "-") + "." + file_extension
+			file_path = key.gsub(":", "-").gsub(',', "-").gsub(' ', '_') + "." + file_extension
 
 			File.open("./img/" + file_path, 'w') { |file| file.write(img.to_blob) }
 
