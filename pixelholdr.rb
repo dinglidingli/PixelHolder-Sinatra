@@ -7,30 +7,62 @@ Bundler.require
 
 include Magick
 
-class PixelHoldr < Sinatra::Base
+class Helpers
 
-	class ColorHelpers
-
-		def self.get_hex(color)
-			case 
-			when color.length == 1
-				generated_color = color * 6
-			when color.length == 2
-				generated_color = color * 3
-			when color.length == 3
-				generated_color = (color[0] * 2) + (color[1] * 2) + (color[2] * 2)
-			when color.length < 6 && color.length > 3
-				generated_color = color + ("0" * (6 - color.length))
-			when color.length > 6
-				generated_color = color[0..5]
-			else
-				generated_color = color
-			end
-
-			return "##{generated_color}"
+	def self.get_hex(color)
+		case 
+		when color.length == 1
+			generated_color = color * 6
+		when color.length == 2
+			generated_color = color * 3
+		when color.length == 3
+			generated_color = (color[0] * 2) + (color[1] * 2) + (color[2] * 2)
+		when color.length < 6 && color.length > 3
+			generated_color = color + ("0" * (6 - color.length))
+		when color.length > 6
+			generated_color = color[0..5]
+		else
+			generated_color = color
 		end
 
+		return "##{generated_color}"
 	end
+
+	def self.add_text(options = {})
+
+		# Add the text watermarks
+		watermark_text = options[:text]
+		watermark = Magick::Draw.new
+		watermark.fill = (options[:text_color]) ? "#{Helpers.get_hex(options[:text_color])}" : "white"
+
+		# TODO: Choose font
+		watermark.font = 'Helvetica Black'
+		watermark.stroke = "rgba(0,0,0,0.15)"
+		watermark.stroke_width = options[:stroke_width]
+		watermark.font_weight = Magick::BoldWeight
+		watermark.pointsize = 500
+		watermark.gravity = options[:gravity]
+		watermark.interline_spacing = -500
+
+		font_size = watermark.get_type_metrics(watermark_text)
+
+		watermark_canvas = Magick::Image.new(font_size.width, font_size.height) do
+			self.background_color = 'transparent'
+		end
+
+		watermark.annotate(watermark_canvas, 0, 0, 0, 0, watermark_text)
+
+		watermark_height = options[:height] ? options[:height] * 0.8 : 20
+
+		watermark_canvas.resize_to_fit!(options[:width] * 0.8, watermark_height)
+
+		return watermark_canvas
+
+	end
+
+end
+
+class PixelHoldr < Sinatra::Base
 
 	error do 
 		"PixelHoldr could not generate an image with the settings provided."
@@ -96,7 +128,7 @@ class PixelHoldr < Sinatra::Base
 			when 'color'
 
 				img = Magick::Image.new(x, y) do
-					self.background_color = ColorHelpers.get_hex(subject[1])
+					self.background_color = Helpers.get_hex(subject[1])
 					self.format = file_extension
 				end
 
@@ -112,7 +144,7 @@ class PixelHoldr < Sinatra::Base
 					end_y = y
 				end
 
-				grad = Magick::GradientFill.new(0, 0, end_x, end_y, ColorHelpers.get_hex(colors[0]), ColorHelpers.get_hex(colors[1])) 
+				grad = Magick::GradientFill.new(0, 0, end_x, end_y, Helpers.get_hex(colors[0]), Helpers.get_hex(colors[1])) 
 
 				grad_overlay = Magick::Image.new(x, y, grad)
 
@@ -158,56 +190,33 @@ class PixelHoldr < Sinatra::Base
 			# Hide the dimensions watermark if specified in the options
 			# TODO: Custom text replacing dimensions
 			unless options[:dimensions] == "hide" then 
-				# Add the text watermarks
-				watermark_text = "#{x} #{215.chr} #{y}"
-				watermark = Magick::Draw.new
-				watermark.fill = (options[:text]) ? "#{ColorHelpers.get_hex(options[:text])}" : "white"
-				# TODO: Choose font
-				watermark.font = 'Helvetica Black'
-				watermark.stroke = "rgba(0,0,0,0.15)"
-				watermark.stroke_width = 20
-				watermark.font_weight = Magick::BoldWeight
-				watermark.pointsize = 500
-				watermark.gravity = Magick::CenterGravity
-				watermark.interline_spacing = -500
 
-				font_size = watermark.get_type_metrics(watermark_text)
+				dimensions_annotation = Helpers.add_text({ 
+						:text => "#{x} #{215.chr} #{y}", 
+						:text_color => options[:text],
+						:width => x,
+						:height => y,
+						:gravity => Magick::CenterGravity,
+						:stroke_width => 20
+					})
 
-				watermark_canvas = Magick::Image.new(font_size.width, font_size.height) do
-					self.background_color = 'transparent'
-				end
+				img.composite!(dimensions_annotation, Magick::CenterGravity, Magick::OverCompositeOp)
 
-				watermark.annotate(watermark_canvas, 0, 0, 0, 0, watermark_text)
-				watermark_canvas.resize_to_fit!(x * 0.8, y * 0.8)
-
-				img.composite!(watermark_canvas, Magick::CenterGravity, Magick::OverCompositeOp)
 			end
 
 
 			unless photo.nil? 
 
-				attribution_text = " #{photo.owner_name} on Flickr "
+				attribution_annotation = Helpers.add_text({
+						:text => " #{photo.owner_name} on Flickr ",
+						:text_color => options[:text],
+						:width => x,
+						:height => false,
+						:gravity => Magick::SouthGravity,
+						:stroke_width => 15
+					})
 
-				attribution = Magick::Draw.new
-				attribution.fill = (options[:text]) ? "#{ColorHelpers.get_hex(options[:text])}" : "white"
-				# TODO: Choose font
-				attribution.font = 'Helvetica Black'
-				attribution.pointsize = 300
-				attribution.stroke = "rgba(0,0,0,0.3)"
-				attribution.stroke_width = 15
-				attribution.font_weight = Magick::BoldWeight
-				attribution.gravity = Magick::SouthGravity
-
-				attr_font_size = attribution.get_type_metrics(attribution_text)
-
-				attribution_canvas = Magick::Image.new(attr_font_size.width, attr_font_size.height) do
-					self.background_color = 'transparent'
-				end
-
-				attribution.annotate(attribution_canvas, 0, 0, 0, 5, attribution_text)
-				attribution_canvas.resize_to_fit!(x * 0.8, 20)
-
-				img.composite!(attribution_canvas, Magick::SouthGravity, Magick::OverCompositeOp)
+				img.composite!(attribution_annotation, Magick::SouthGravity, Magick::OverCompositeOp)
 
 			end
 
