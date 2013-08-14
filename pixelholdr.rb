@@ -35,7 +35,7 @@ class Helpers
 		watermark = Magick::Draw.new
 		watermark.fill = (options[:text_color]) ? "#{Helpers.get_hex(options[:text_color])}" : "white"
 
-		case options[:font].downcase
+		case options[:font]
 		when "courier"
 			font = "Courier"
 		else
