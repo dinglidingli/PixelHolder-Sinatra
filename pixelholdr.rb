@@ -35,8 +35,14 @@ class Helpers
 		watermark = Magick::Draw.new
 		watermark.fill = (options[:text_color]) ? "#{Helpers.get_hex(options[:text_color])}" : "white"
 
-		# TODO: Choose font
-		watermark.font = 'Helvetica Black'
+		case options[:font].downcase
+		when "courier"
+			font = "Courier"
+		else
+			font = "Helvetica Black"
+		end
+
+		watermark.font = font
 		watermark.stroke = "rgba(0,0,0,0.15)"
 		watermark.stroke_width = options[:stroke_width]
 		watermark.font_weight = Magick::BoldWeight
@@ -197,7 +203,8 @@ class PixelHoldr < Sinatra::Base
 						:width => x,
 						:height => y,
 						:gravity => Magick::CenterGravity,
-						:stroke_width => 20
+						:stroke_width => 20,
+						:font => options[:font]
 					})
 
 				img.composite!(dimensions_annotation, Magick::CenterGravity, Magick::OverCompositeOp)
@@ -213,7 +220,8 @@ class PixelHoldr < Sinatra::Base
 						:width => x,
 						:height => false,
 						:gravity => Magick::SouthGravity,
-						:stroke_width => 15
+						:stroke_width => 15,
+						:font => options[:font]
 					})
 
 				img.composite!(attribution_annotation, Magick::SouthGravity, Magick::OverCompositeOp)
