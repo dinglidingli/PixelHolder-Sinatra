@@ -5,9 +5,7 @@ This is the source code for the PixelHoldr image placeholder generator. I have p
 
 If you wish to use image placeholders without running this locally, please visit [PixelHoldr.com](http://pixelholdr.com).
 
-Requirements
-------------
-MongoDB is used by PixelHoldr to keep track of image file paths. PixelHoldr will connect to the collection called `pixelholdr`.
+A previous version of this application required MongoDB. This is no longer the case.
 
 Installation
 ------------

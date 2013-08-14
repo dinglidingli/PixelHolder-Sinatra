@@ -9,17 +9,6 @@ include Magick
 
 class PixelHoldr < Sinatra::Base
 
-	configure do
-	  MongoMapper.setup({'production' => {'uri' => "mongodb://localhost:27017/pixelholdr"}}, 'production')
-	end
-
-	class Placeholder
-	  include MongoMapper::Document
-
-	  key :key, String
-	  key :url, String
-	end
-
 	class ColorHelpers
 
 		def self.get_hex(color)
@@ -70,9 +59,14 @@ class PixelHoldr < Sinatra::Base
 
 		end
 
-		key = "#{subject_string}-#{dimensions}-#{options_string}"
+		# We are going to use JPG as the file format because it shouldn't really
+		# make any difference in most use cases what format the image is delivered in.
+		# But anyways, TODO: Add an option to specify the file format
+		file_extension = 'jpg'
 
-		if Placeholder.find_by_key(key).nil?
+		file_path = "./img/#{subject_string}-#{dimensions}-#{options_string}".gsub(/:|,/, "-").gsub(' ', '_') + ".#{file_extension}"
+
+		unless File.exist?(file_path)
 
 			default_width = 200
 
@@ -95,11 +89,6 @@ class PixelHoldr < Sinatra::Base
 			if x > 2500 || y > 2500
 				halt "Sorry, the image dimensions you specified far exceed any reasonable placeholder size."
 			end
-
-			# We are going to use JPG as the file format because it shouldn't really
-			# make any difference in most use cases what format the image is delivered in.
-			# But anyways, TODO: Add an option to specify the file format
-			file_extension = 'jpg'
 
 			action_case = subject[0] if subject.length > 1
 
@@ -222,23 +211,13 @@ class PixelHoldr < Sinatra::Base
 
 			end
 
-			# Save the image
-			file_path = key.gsub(":", "-").gsub(',', "-").gsub(' ', '_') + "." + file_extension
-
-			File.open("./img/" + file_path, 'w') { |file| file.write(img.to_blob) }
-
-			@placeholder = Placeholder.new({
-				:key => key, 
-				:url => "./img/" + file_path
-			})
-
-			@placeholder.save
+			File.open(file_path, 'w') { |file| file.write(img.to_blob) }
 
 		end
 
 		content_type 'image/jpg'
 
-		open(Placeholder.find_by_key(key).url)
+		open(file_path)
 
 	end
 
