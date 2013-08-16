@@ -10,22 +10,7 @@ include Magick
 class Helpers
 
 	def self.get_hex(color)
-		case 
-		when color.length == 1
-			generated_color = color * 6
-		when color.length == 2
-			generated_color = color * 3
-		when color.length == 3
-			generated_color = (color[0] * 2) + (color[1] * 2) + (color[2] * 2)
-		when color.length < 6 && color.length > 3
-			generated_color = color + ("0" * (6 - color.length))
-		when color.length > 6
-			generated_color = color[0..5]
-		else
-			generated_color = color
-		end
-
-		return "##{generated_color}"
+		"##{generate_color(color).downcase}"
 	end
 
 	def self.add_text(options = {})
@@ -66,6 +51,16 @@ class Helpers
 
 	end
 
+
+	private
+	
+	def self.generate_color(color)
+	    return color.ljust(6, color)            if (1..2).include?(color.length)
+	    return color.scan(/((.))/).flatten.join if color.length == 3
+	    return color.ljust(6, '0')              if (4..5).include?(color.length)
+	    return color[0..5]                      if color.length > 6
+	    return color
+	end
 end
 
 class PixelHoldr < Sinatra::Base
