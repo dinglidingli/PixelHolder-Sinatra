@@ -3,9 +3,12 @@ PixelHoldr
 
 PixelHoldr is a self-hosted image placeholder generator built on top of [Sinatra](https://github.com/sinatra/sinatra). Using the Flickr API, Creative Commons licenced images are retrieved and cropped to your specified dimensions. The first load may be slow while the file is downloaded off Flickr, but generated images are cached on your harddrive and will be used instead if present. 
 
+I will be discontinuing the hosted service for PixelHoldr 23rd January 2014. If you feel like hosting PixelHoldr, please let me know and I will link to it here.
+
 Requirements
 ------------
-Ruby needs to be installed in order to use this application.
+* Ruby 2.0.0
+* Imagick
 
 Installation
 ------------
