@@ -61,12 +61,19 @@ class Helpers
 	    return color[0..5]                      if color.length > 6
 	    return color
 	end
+
 end
 
 class PixelHoldr < Sinatra::Base
 
 	error do 
 		"PixelHoldr could not generate an image with the settings provided."
+	end
+
+	get '/' do 
+		md = File.read("./README.md")
+		parsed_md = GitHub::Markdown.render(md)
+		erb :index, :locals => {:body_content => parsed_md}
 	end
 
 	get '/:subject_string/:dimensions/?:options_string?' do |subject_string, dimensions, options_string|
