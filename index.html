@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Pixelholdr by chrisdingli</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Pixelholdr</h1>
+        <h2>Website place-holder image generator</h2>
+        <a href="https://github.com/chrisdingli/PixelHoldr" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>NOTE: I will be discontinuing the hosted service for PixelHoldr 23rd January 2014 due to financial reasons. If you feel like hosting PixelHoldr, please let me know and I will link to it here.</p>
+
+<h1>
+<a name="pixelholdr" class="anchor" href="#pixelholdr"><span class="octicon octicon-link"></span></a>PixelHoldr</h1>
+
+<p>PixelHoldr is a self-hosted image placeholder generator built on top of <a href="https://github.com/sinatra/sinatra">Sinatra</a>. Using the Flickr API, Creative Commons licenced images are retrieved and cropped to your specified dimensions. The first load may be slow while the file is downloaded off Flickr, but generated images are cached on your harddrive and will be used instead if present. </p>
+
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>Ruby 2.0.0</li>
+<li>Imagick</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>Clone the repository</li>
+<li>Navigate to the folder in the terminal </li>
+<li>Run <code>bundle install</code>
+</li>
+<li>Update <code>config/flickr.yml</code> with your Flickr API details</li>
+<li>Run <code>ruby pixelholdr.rb</code>
+</li>
+</ol><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>PixelHoldr works with the following URL format </p>
+
+<pre><code>http://localhost:4567/{image type}/{image dimensions}/{optional image settings}
+</code></pre>
+
+<p>To add an image to your HTML, simply insert the URL in the <code>src</code> attribute of the <code>img</code> tag. </p>
+
+<p>e.g.:</p>
+
+<pre><code>&lt;img src="http://localhost:4567/cat/500"&gt;
+</code></pre>
+
+<h2>
+<a name="image-type" class="anchor" href="#image-type"><span class="octicon octicon-link"></span></a>Image Type</h2>
+
+<p>PixelHoldr currently generates three types of image placeholders: image, solid fill, and gradient fill. The image type is specified in the first segment of the URL.</p>
+
+<p>Image placeholders are automatically generated depending on the comma separated keywords specified. e.g., you can search for <code>brown,dogs</code> to search Flickr for brown dogs.</p>
+
+<p>Solid fills are specified using the following syntax: <code>color:{hex color code}</code> e.g. color:333333. Do not use a hash (#) symbol</p>
+
+<p>Gradient fills are specified using the following syntax: <code>gradient:{starting hex color code},{ending hex color code},{optional: gradient direction - h or v for horizontal and vertical}</code> e.g. gradient:ffffff,0099cc,h will produce a gradient that goes from white on the left to blue on the right. Gradient directions default to vertical.</p>
+
+<h2>
+<a name="image-dimensions" class="anchor" href="#image-dimensions"><span class="octicon octicon-link"></span></a>Image Dimensions</h2>
+
+<p>Dimensions can be specified in the second segment of the URL as either <code>{width}x{height}</code> for rectangular images or <code>{width}</code> for square images. e.g. 800x300</p>
+
+<h2>
+<a name="optional-image-settings" class="anchor" href="#optional-image-settings"><span class="octicon octicon-link"></span></a>Optional Image Settings</h2>
+
+<p>These optional image settings are put into the third segment of the URL as comma separated values</p>
+
+<ul>
+<li>
+<code>seed:{number}</code> e.g. seed:5 - Works only with images. Picks another image</li>
+<li>
+<code>dimensions:hide</code> Hides the dimensions overlay</li>
+<li>
+<code>text:{hex color code}</code> e.g. text:cc9900 - Changes the overlay text color. Do not use a hash (#) symbol</li>
+<li>
+<code>font:{courier|helveticablack}</code> e.g. font:courier - Changes the font used. Uses Helvetica Black by default</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/chrisdingli/PixelHoldr/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/chrisdingli/PixelHoldr/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/chrisdingli/PixelHoldr"></a> is maintained by <a href="https://github.com/chrisdingli">chrisdingli</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
