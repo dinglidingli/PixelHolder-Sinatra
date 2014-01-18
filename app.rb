@@ -36,7 +36,7 @@ class App < Sinatra::Base
 		file_path = "./img/#{subject_string}-#{dimensions}-#{options_string}".gsub(/:|,/, "-").gsub(' ', '_') + ".#{options[:image_format]}"
 
 		unless File.exist?(file_path)
-			pixelholder = PixelHolder.new(subject_string, dimensions, options)
+			pixelholder = PixelHolder.new(subject_string, dimensions, nil, options)
 			File.open(file_path, 'w') { |file| file.write(pixelholder.get_blob()) }
 		end
 
