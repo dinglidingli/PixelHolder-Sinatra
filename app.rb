@@ -5,7 +5,7 @@ require 'bundler'
 require 'sinatra/base'
 require 'github/markdown'
 
-require './lib/pixelholder'
+require 'pixelholder'
 
 class App < Sinatra::Base
 
