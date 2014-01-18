@@ -1,9 +1,11 @@
-NOTE: I will be discontinuing the hosted service for PixelHoldr 23rd January 2014. If you feel like hosting PixelHoldr, please let me know and I will link to it here.
+NOTE: I will be discontinuing the hosted service for PixelHolder 23rd January 2014. If you feel like hosting PixelHolder, please let me know and I will link to it here.
 
-PixelHoldr
+PixelHolder
 ==========
 
-PixelHoldr is a self-hosted image placeholder generator built on top of [Sinatra](https://github.com/sinatra/sinatra). Using the Flickr API, Creative Commons licenced images are retrieved and cropped to your specified dimensions. The first load may be slow while the file is downloaded off Flickr, but generated images are cached on your harddrive and will be used instead if present. 
+PixelHolder is a self-hosted image placeholder generator built on top of [Sinatra](https://github.com/sinatra/sinatra). Using the Flickr API, Creative Commons licenced images are retrieved and cropped to your specified dimensions. The first load may be slow while the file is downloaded off Flickr, but generated images are cached on your harddrive and will be used instead if present. 
+
+PixelHolder previously ran as a Sinatra only app, but is currently being rewritten as a Ruby Gem.
 
 Requirements
 ------------
@@ -16,11 +18,11 @@ Installation
 2. Navigate to the folder in the terminal 
 3. Run `bundle install`
 4. Update `config/flickr.yml` with your Flickr API details
-5. Run `ruby pixelholdr.rb`
+5. Run `ruby app.rb`
 
 Usage
 -----
-PixelHoldr works with the following URL format 
+PixelHolder works with the following URL format 
 
 ```
 http://localhost:4567/{image type}/{image dimensions}/{optional image settings}
@@ -35,7 +37,7 @@ e.g.:
 
 Image Type
 ----------
-PixelHoldr currently generates three types of image placeholders: image, solid fill, and gradient fill. The image type is specified in the first segment of the URL.
+PixelHolder currently generates three types of image placeholders: image, solid fill, and gradient fill. The image type is specified in the first segment of the URL.
 
 Image placeholders are automatically generated depending on the comma separated keywords specified. e.g., you can search for `brown,dogs` to search Flickr for brown dogs.
 
@@ -52,6 +54,6 @@ Optional Image Settings
 These optional image settings are put into the third segment of the URL as comma separated values
 
 * `seed:{number}` e.g. seed:5 - Works only with images. Picks another image
-* `dimensions:hide` Hides the dimensions overlay
-* `text:{hex color code}` e.g. text:cc9900 - Changes the overlay text color. Do not use a hash (#) symbol
-* `font:{courier|helveticablack}` e.g. font:courier - Changes the font used. Uses Helvetica Black by default
+* `text:{string}` e.g. text:hello! - Changes the overlay text to whatever string you wish to use. For spaces, use `%20` in the URL
+* `text:add_dimensions` Similar to adding text, this will add the dimensions of the image as an overlay
+* `text_color:{hex color code}` e.g. text:cc9900 - Changes the overlay text color. Do not use a hash (#) symbol

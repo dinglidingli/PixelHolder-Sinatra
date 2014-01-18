@@ -1,9 +1,7 @@
 source "http://rubygems.org"
 
-gem "sinatra", :require => "sinatra/base"
-
+gem "sinatra"
 gem "bson_ext"
-
-gem "rmagick", "~> 2.13.2", :require => "RMagick"
-gem "flickr_fu", "~> 0.3.2", :require => "flickr_fu"
-gem "github-markdown", "~> 0.6.3", :require => "github/markdown"
+gem "rmagick", "~> 2.13.2"
+gem "flickr_fu", "~> 0.3.2"
+gem "github-markdown", "~> 0.6.3"
