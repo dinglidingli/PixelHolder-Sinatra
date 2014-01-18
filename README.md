@@ -5,7 +5,7 @@ PixelHolder
 
 PixelHolder is a self-hosted image placeholder generator built on top of [Sinatra](https://github.com/sinatra/sinatra). Using the Flickr API, Creative Commons licenced images are retrieved and cropped to your specified dimensions. The first load may be slow while the file is downloaded off Flickr, but generated images are cached on your harddrive and will be used instead if present. 
 
-PixelHolder previously ran as a Sinatra only app, but is currently being rewritten as a Ruby Gem.
+If you want to integrate PixelHolder directly into your Ruby app, you can use the [PixelHolder RubyGem](https://rubygems.org/gems/pixelholder).
 
 Requirements
 ------------
