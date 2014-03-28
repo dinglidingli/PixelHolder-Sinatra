@@ -1,3 +1,0 @@
-key: "XXX" # Your Flickr API key
-secret: "XXX" # Your Flickr API secret
-token_cache: "config/token_cache.yml"
