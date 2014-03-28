@@ -24,7 +24,7 @@ To add an image to your HTML, simply insert the URL in the `src` attribute of th
 
 e.g.:
 ```
-<img src="http://localhost:4567/cat/500x500">
+<img src="http://localhost:4567/fill/500x500/background_color:ff0000">
 ```
 
 Image Type
